@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="false" threshold="debug" xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <!-- PLEASE READ DESCRIPTION BELOW BEFORE CHANGING THIS FILE -->
+    <!--
+    Don't forget to set attribute threshold to "info" when performance is required!!
+
+    The configuration file provides Log4j configuration for all the modules. In case of installation on different machines unnecessary "Appenders" and "Categories" can be removed. Nevertheless they don't mix up anything, just empty log files will be created.
+
+    Each module writes LOG in it's own log file. "Additivity" is set to "false" to do not duplicate log content in the community_default file. "Community default" is used as a Root category and all undefined categories will write there!
+    The name of default appender used by Root category is very important!! It must be "default"!! Because the code checks log4j correct initialization by this appender and write the log into console if there is some problems with configuration!!
+
+    All the files are located in the same directory "log", and when it is required to compile logs of different modules "cat/grep" commands can be used!
+    E.g. the command <!>cat *.log | grep "INFO"<!> displays all the Info log written by modules.
+    -->
+    <!--
+    APPENDERS
+    <<<<<>>>>>
+    -->
+    <!--
+Default, Third party applications logs (Tomcat, Spring etc.)-->
+    <appender name="default" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/third-party.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Bet service info layer-->
+    <appender name="odds-analyzer-info" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/odds-analyzer-info.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+
+    <!-- Bet service error layer-->
+    <appender name="odds-analyzer-error" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/odds-analyzer-error.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="Threshold" value="error"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Crawler service layer-->
+    <appender name="crawler-service-info" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/crawler-info.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Crawler service layer errors-->
+    <appender name="crawler-service-error" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/crawler-error.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="Threshold" value="error"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+
+
+    <!-- http Crawler layer-->
+    <appender name="crawler-http-info" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/crawler-info.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Crawler http layer errors-->
+    <appender name="crawler-http-error" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/crawler-error.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="Threshold" value="error"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Bet service info layer-->
+    <appender name="measure-info" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/davit/Wise Robots/logs/measure-info.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%F:%L) - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Console appender to activate for local debugging -->
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <!-- change between Off/All to manage if all the logs should be print in console -->
+        <param name="Threshold" value="All"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%l) - %m%n"/>
+        </layout>
+    </appender>
+
+    <!--
+    CATEGORIES
+    <<<<<>>>>>>
+    -->
+    <!--
+   Third-Party -->
+    <category name="org.apache.catalina" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="default"/>
+        <appender-ref ref="CONSOLE"/>
+    </category>
+
+
+    <!--  Service Layer -->
+    <!--bet logs-->
+    <category name="com.el.robot.analyzer" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="odds-analyzer-info"/>
+        <appender-ref ref="odds-analyzer-error"/>
+        <appender-ref ref="CONSOLE"/>
+    </category>
+
+    <!--crawler logs -->
+    <category name="com.el.robot.crawler" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="crawler-service-info"/>
+        <appender-ref ref="crawler-service-error"/>
+        <appender-ref ref="CONSOLE"/>
+    </category>
+
+    <!--crawler logs -->
+    <category name="el.http.crawler" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="crawler-http-info"/>
+        <appender-ref ref="crawler-http-error"/>
+        <appender-ref ref="CONSOLE"/>
+    </category>
+
+    <!--crawler logs -->
+    <category name="com.el.robot.execution.measures" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="measure-info"/>
+    </category>
+
+    <!--
+Third party applications. Set the level to Debug if anything wrong with, for exmaple, Tomcat itself, or with any other third party application-->
+    <root>
+        <priority value="Debug"/>
+        <appender-ref ref="default"/>
+    </root>
+</log4j:configuration>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:hadoop="http://www.springframework.org/schema/hadoop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+    <import resource="mongo-repository-context.xml"/>
+
+    <context:property-placeholder location="hadoop.properties"/>
+    <context:annotation-config/>
+    <context:component-scan base-package="com.el.robot.analyzer.*"/>
+    <context:component-scan base-package="com.el.robot.crawler.db">
+        <context:include-filter type="assignable" expression="com.el.robot.crawler.db.v3.EventStatisticManager"/>
+    </context:component-scan>
+
+    <hadoop:configuration>
+        mapreduce.framework.name=yarn
+    </hadoop:configuration>
+
+    <bean name="runIdIncrementer" class="org.springframework.batch.core.launch.support.RunIdIncrementer"/>
+
+    <batch:job id="loadStatsBatchJob" restartable="true" incrementer="runIdIncrementer">
+        <batch:step id="betOptionNormalizer-step" next="generateStats-step">
+            <batch:tasklet ref="betOptionNormalizer-tasklet">
+                <batch:listeners>
+                    <batch:listener ref="deleteAggregationOutputListener"/>
+                </batch:listeners>
+            </batch:tasklet>
+        </batch:step>
+
+        <batch:step id="generateStats-step" next="loadStatsToMongoStep">
+            <batch:tasklet ref="generateStats-tasklet">
+                <batch:listeners>
+                    <batch:listener ref="deleteStatsOutputListener"/>
+                </batch:listeners>
+            </batch:tasklet>
+        </batch:step>
+
+        <batch:step id="loadStatsToMongoStep">
+            <batch:tasklet ref="loadStatsToMongo">
+                <batch:listeners>
+                    <batch:listener ref="deleteIntermediateFiles"/>
+                </batch:listeners>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <hadoop:job-tasklet id="betOptionNormalizer-tasklet" job-ref="betOptionNormalizerJob" scope="step"/>
+    <hadoop:job-tasklet id="generateStats-tasklet" job-ref="generateStatsJob" scope="step"/>
+
+    <hadoop:job id="betOptionNormalizerJob"
+                input-path="${betfair.unaggregated.data.path}/${betfair.data.date}"
+                output-path="${betfair.aggregated.data.path}/${betfair.data.date}"
+                jar-by-class="com.el.robot.analyzer.application.HadoopRunner"
+                libs="/home/davit/Wise Robots/out/artifacts/odds_analyzer_jar/*.jar"
+                mapper="com.el.robot.analyzer.mapreduce.processors.BetfairDataNormalizerMapper"
+                reducer="com.el.robot.analyzer.mapreduce.processors.BetfairDataNormalizerReducer"
+                output-format="org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat"
+                key="org.apache.hadoop.io.Text"
+                value="com.el.robot.analyzer.mapreduce.model.TextArrayWritable"
+    />
+
+    <hadoop:job id="generateStatsJob"
+                input-path="${betfair.aggregated.data.path}/${betfair.data.date}"
+                output-path="${betfair.stats.data.path}/${betfair.data.date}"
+                jar-by-class="com.el.robot.analyzer.application.HadoopRunner"
+                libs="/home/davit/Wise Robots/out/artifacts/odds_analyzer_jar/*.jar"
+                input-format="org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat"
+                mapper="com.el.robot.analyzer.mapreduce.processors.BetOptionStatsMapper"
+                number-reducers="0"
+                output-format="com.mongodb.hadoop.BSONFileOutputFormat"
+                map-key="org.apache.hadoop.io.Text"
+                map-value="org.bson.BSONObject"
+    />
+
+    <!--<hadoop:job-runner id="runner"-->
+    <!--job-ref="generateStatsJob"-->
+    <!--pre-action="cleanStatsFile"-->
+    <!--run-at-startup="true"-->
+    <!--/>-->
+</beans>

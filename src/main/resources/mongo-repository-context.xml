@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="mongo-context.xml"/>
+
+    <context:annotation-config/>
+    <context:component-scan base-package="org.springframework.batch.mongodb"/>
+
+    <bean id="executionContextDao"
+          class="org.springframework.batch.mongodb.MongoExecutionContextDao">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+
+    <bean id="jobExecutionDao"
+          class="org.springframework.batch.mongodb.MongoJobExecutionDao">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+
+    <bean id="jobInstanceDao"
+          class="org.springframework.batch.mongodb.MongoJobInstanceDao">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+
+    <bean id="stepExecutionDao"
+          class="org.springframework.batch.mongodb.MongoStepExecutionDao">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+
+    <bean id="jobRepository"
+          class="org.springframework.batch.mongodb.MongoJobRepositoryFactoryBean">
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="stepExecutionDao" ref="stepExecutionDao" />
+        <property name="jobExecutionDao" ref="jobExecutionDao" />
+        <property name="jobInstanceDao" ref="jobInstanceDao" />
+        <property name="executionContextDao" ref="executionContextDao" />
+    </bean>
+    <!-- ENDS: Beans for Mongo DB Storage -->
+
+    <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+
+    <!--
+    <bean id="transactionManager"
+        class="org.springframework.batch.mongodb.DefaultTransactionManager" />
+     -->
+
+    <bean id="jobLauncher"
+          class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository" />
+    </bean>
+
+
+
+    <!--this dependency are required for rerunability-->
+    <bean name="jobExplorer" class="org.springframework.batch.core.explore.support.SimpleJobExplorer">
+        <constructor-arg name="ecDao" ref="executionContextDao"/>
+        <constructor-arg name="jobExecutionDao" ref="jobExecutionDao"/>
+        <constructor-arg name="jobInstanceDao" ref="jobInstanceDao"/>
+        <constructor-arg name="stepExecutionDao" ref="stepExecutionDao"/>
+    </bean>
+
+    <bean name="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
+
+    <bean id="jobRegistryBeanPostProcessor" class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+        <property name="jobRegistry" ref="jobRegistry"/>
+    </bean>
+
+    <bean name="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator">
+        <property name="jobLauncher" ref="jobLauncher"/>
+        <property name="jobExplorer" ref="jobExplorer"/>
+        <property name="jobRepository" ref="jobRepository"/>
+        <property name="jobRegistry" ref="jobRegistry"/>
+    </bean>
+</beans>

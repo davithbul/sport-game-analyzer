@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:hadoop="http://www.springframework.org/schema/hadoop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+
+    <!-- ****************** Mongo DB initialization ******************  -->
+    <bean id="mongo" class="org.springframework.data.mongodb.core.MongoClientFactoryBean">
+        <property name="host" value="localhost"/>
+    </bean>
+
+    <!-- Factory bean that creates the Mongo instance -->
+    <!--<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">-->
+        <!--<property name="host" value="localhost"/>-->
+        <!--<property name="writeConcern" value="ACKNOWLEDGED"/>-->
+    <!--</bean>-->
+
+
+    <bean name="mongoDbFactory" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+        <constructor-arg name="mongo" ref="mongo"/>
+        <constructor-arg name="databaseName" value="wise_robots"/>
+    </bean>
+
+    <mongo:mapping-converter id="mongoConverter">
+        <mongo:custom-converters>
+            <mongo:converter>
+                <bean class="com.el.robot.crawler.db.converter.LocalDateTimeToDateConverter"/>
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="com.el.robot.crawler.db.converter.DateToLocalDateTimeConverter"/>
+            </mongo:converter>
+        </mongo:custom-converters>
+    </mongo:mapping-converter>
+
+    <!-- MongoTemplate for connecting and quering the documents in the database -->
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+        <constructor-arg name="mongoConverter" ref="mongoConverter"/>
+    </bean>
+
+    <!-- Use this post processor to translate any MongoExceptions thrown in @Repository annotated classes -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+</beans>

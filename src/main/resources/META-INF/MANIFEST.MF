@@ -1,0 +1,73 @@
+Manifest-Version: 1.0
+Class-Path: spring-web-4.2.5.RELEASE.jar spring-data-hadoop-core-2.3.0
+ .RELEASE.jar jcip-annotations-1.0.jar java-xmlbuilder-0.4.jar mx4j-to
+ ols-3.0.1.jar mongo-java-driver-3.2.1.jar hadoop-mapreduce-client-app
+ -2.7.2.jar commons-math3-3.6.jar wadl-cmdline-1.1.6.jar spring-data-h
+ adoop-hive-2.3.0.RELEASE.jar spring-data-hadoop-pig-2.3.0.RELEASE.jar
+  snappy-java-1.0.4.1.jar jsr305-3.0.0.jar selenium-common-2.0b1.jar s
+ elenium-firefox-driver-2.48.2.jar selenium-support-2.48.2.jar xml-api
+ s-1.3.04.jar bcprov-jdk15on-1.48.jar xmlpull-1.1.3.1.jar xmlenc-0.52.
+ jar hadoop-yarn-server-nodemanager-2.7.2.jar com.ibm.jbatch-tck-spi-1
+ .0.jar hadoop-mapreduce-client-jobclient-2.7.2.jar jets3t-0.9.0.jar c
+ ommons-httpclient-3.1.jar bson-3.2.2.jar httpmime-4.5.jar spring-jdbc
+ -4.2.4.RELEASE.jar paranamer-2.3.jar jersey-server-1.9.jar guava-11.0
+ .2.jar zookeeper-3.4.6.jar jsch-0.1.42.jar mongodb-driver-3.2.2.jar c
+ ommons-exec-1.3.jar commons-collections-3.2.2.jar jersey-guice-1.9.ja
+ r jetty-util-9.2.12.v20150709.jar spring-webmvc-4.2.5.RELEASE.jar jac
+ kson-mapper-asl-1.9.13.jar netty-3.6.2.Final.jar hadoop-common-2.7.2.
+ jar activation-1.1.jar jackson-core-2.4.3.jar commons-cli-1.2.jar com
+ mons-configuration-1.6.jar mongodb-driver-core-3.2.2.jar jersey-bundl
+ e-1.19.jar selenium-leg-rc-2.48.2.jar hadoop-streaming-2.7.1.jar jett
+ y-6.1.26.jar guice-servlet-3.0.jar jaxb-impl-2.2.3-1.jar spring-data-
+ hadoop-batch-2.3.0.RELEASE.jar aopalliance-1.0.jar spring-batch-core-
+ 3.0.6.RELEASE.jar servlet-api-2.5.jar selenium-safari-driver-2.48.2.j
+ ar commons-compress-1.4.1.jar hk2-locator-2.2.0-b21.jar selenium-edge
+ -driver-2.48.2.jar bcpkix-jdk15on-1.48.jar osgi-resource-locator-1.0.
+ 1.jar jettison-1.2.jar protobuf-java-2.5.0.jar xz-1.0.jar spring-data
+ -hadoop-hbase-2.3.0.RELEASE.jar jackson-core-asl-1.9.13.jar spring-ex
+ pression-4.2.4.RELEASE.jar hadoop-yarn-api-2.7.2.jar jersey-core-1.9.
+ jar avro-1.7.4.jar selenium-remote-driver-2.48.2.jar servlet-api-2.5-
+ 6.1.9.jar javax.inject-2.2.0-b21.jar jsr311-api-1.1.1.jar jetty-io-9.
+ 2.12.v20150709.jar phantomjsdriver-1.2.0.jar selenium-ie-driver-2.48.
+ 2.jar jcl-over-slf4j-1.7.19.jar jna-platform-4.1.0.jar slf4j-api-1.7.
+ 10.jar api-util-1.0.0-M20.jar javax.servlet-api-3.1.0.jar selenium-se
+ rver-2.48.2.jar curator-framework-2.7.1.jar commons-lang3-3.3.2.jar a
+ sm-all-repackaged-2.2.0-b21.jar commons-digester-1.8.jar commons-logg
+ ing-1.1.3.jar selenium-java-2.48.2.jar jetty-util-6.1.26.jar commons-
+ beanutils-core-1.8.0.jar spring-core-4.2.5.RELEASE.jar api-asn1-api-1
+ .0.0-M20.jar jdom-1.0.jar commons-daemon-1.0.13.jar hadoop-yarn-commo
+ n-2.7.2.jar jersey-common-2.5.1.jar spring-context-4.2.4.RELEASE.jar 
+ wadl-core-1.1.jar xercesImpl-2.9.1.jar websocket-client-9.2.12.v20150
+ 709.jar netty-all-4.0.23.Final.jar commons-codec-1.4.jar mimepull-1.9
+ .3.jar spring-data-mongodb-1.9.0.RELEASE.jar websocket-api-9.2.12.v20
+ 150709.jar hk2-utils-2.2.0-b21.jar jcommander-1.48.jar stax-api-1.0-2
+ .jar hadoop-mapreduce-client-core-2.7.2.jar sac-1.3.jar hadoop-yarn-s
+ erver-common-2.7.2.jar javax.batch-api-1.0.jar cssparser-0.9.16.jar s
+ elenium-api-2.48.2.jar simmetrics_jar_v1_6_2_d07_02_07.jar hadoop-map
+ reduce-client-shuffle-2.7.2.jar jackson-databind-2.4.3.jar httpcore-4
+ .1.2.jar commons-beanutils-1.7.0.jar webbit-0.4.14.jar hadoop-yarn-cl
+ ient-2.7.2.jar spring-tx-4.2.4.RELEASE.jar rome-1.0.jar selenium-chro
+ me-driver-2.48.2.jar stax-api-1.0.1.jar spring-beans-4.2.5.RELEASE.ja
+ r gson-2.2.4.jar localizer-1.0.jar serializer-2.7.2.jar jersey-json-1
+ .9.jar jackson-jaxrs-1.8.3.jar asm-all-3.1.jar spring-aop-4.2.4.RELEA
+ SE.jar commons-io-2.4.jar slf4j-log4j12-1.7.10.jar xalan-2.7.2.jar sp
+ ring-context-support-4.2.4.RELEASE.jar commons-lang-2.6.jar jackson-a
+ nnotations-2.4.0.jar hadoop-hdfs-2.7.1.jar nekohtml-1.9.22.jar comres
+ rcgen-1.0.jar mongo-hadoop-core-1.5.1.jar cglib-2.2.0-b21.jar jersey-
+ client-1.9.jar cglib-nodep-2.1_3.jar apacheds-kerberos-codec-2.0.0-M1
+ 5.jar snakeyaml-1.8.jar jackson-xc-1.8.3.jar htmlunit-core-js-2.17.ja
+ r spring-data-hadoop-2.3.0.RELEASE.jar spring-batch-infrastructure-3.
+ 0.6.RELEASE.jar curator-recipes-2.7.1.jar apacheds-i18n-2.0.0-M15.jar
+  leveldbjni-all-1.8.jar htrace-core-3.1.0-incubating.jar curator-clie
+ nt-2.7.1.jar hadoop-distcp-2.7.1.jar commons-net-3.1.jar jetty-repack
+ ed-9.2.13.v20150730.jar guice-3.0.jar xstream-1.4.7.jar javax.inject-
+ 1.jar javax.annotation-api-1.2.jar hk2-api-2.2.0-b21.jar httpclient-4
+ .1.2.jar jsp-api-2.1.jar hadoop-mapreduce-client-common-2.7.2.jar asm
+ -3.1.jar htmlunit-2.18.jar selenium-htmlunit-driver-2.48.2.jar log4j-
+ 1.2.17.jar jna-4.1.0.jar javax.ws.rs-api-2.0-m01.jar websocket-common
+ -9.2.12.v20150709.jar spring-retry-1.1.0.RELEASE.jar hadoop-annotatio
+ ns-2.7.2.jar spring-data-commons-1.12.0.RELEASE.jar jetty-rc-repacked
+ -5.jar tools.jar jaxb-api-2.2.2.jar hadoop-auth-2.7.2.jar hadoop-yarn
+ -server-web-proxy-2.7.2.jar xpp3_min-1.1.4c.jar jaxb-xjc-2.2.jar
+Main-Class: com.el.robot.analyzer.application.HadoopRunner
+
